@@ -1,5 +1,6 @@
 # Node modules
 node_modules
+client/node_modules
 
 # Logs
 logs
@@ -18,13 +19,14 @@ Thumbs.db
 # Build output directories
 dist
 build
+client/dist
+client/build
 
 # Environment variables
 .env
+client/.env
 
 # Vite
-client/node_modules
-client/dist
 client/.cache
 
 # IDE specific files
@@ -32,3 +34,9 @@ client/.cache
 .vscode/
 *.sublime-project
 *.sublime-workspace
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
