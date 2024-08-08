@@ -4,6 +4,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import UserType from '../types/user';
+import mongoose, { Types } from 'mongoose';
 
 passport.use(new LocalStrategy(
   async (username: string, password: string, done) => {
@@ -49,7 +50,7 @@ passport.use(new LocalStrategy(
 // ));
 
 passport.serializeUser((user: any, done) => {
-  done(null, user.id);
+  done(null, user._id);
 });
 
 passport.deserializeUser(async (id: string, done) => {
@@ -57,7 +58,7 @@ passport.deserializeUser(async (id: string, done) => {
     const user = await User.findById(id);
     done(null, user);
   } catch (err) {
-    done(err, null);
+    done(err);
   }
 });
 

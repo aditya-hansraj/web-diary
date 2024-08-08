@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
-import UserType from "../types/user";
+import UserType  from "../types/user"
 import passport from "../config/passport";
 
 export const register = async (req: Request, res: Response) => {
@@ -41,8 +41,7 @@ export const register = async (req: Request, res: Response) => {
           .status(500)
           .json({ error: "Failed to log in after registration" });
       }
-      res
-        .status(201)
+      res.status(201)
         .json({
           message: "User registered and logged in successfully",
           user: newUser,
@@ -73,3 +72,31 @@ export const login = (req: Request, res: Response) => {
     }
   )(req, res);
 };
+
+export const logout = (req: Request, res: Response) => {
+  req.logout((err: any) => {
+    if (err) {
+      return res.status(500).json({ error: 'Logout failed' });
+    }
+    req.session.destroy((err: any) => {
+      if (err) {
+        return res.status(500).json({ error: 'Session destruction failed' });
+      }
+      res.status(200).json({ message: 'Logged out successfully' });
+    });
+  })
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+    // Cast req.user to UserType if using TypeScript
+    const user = req.user as UserType;
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
