@@ -14,6 +14,8 @@ const secret = String(process.env.SECRET_KEY);
 
 app.use(express.json());
 
+app.use('/uploads', express.static('uploads')); 
+
 app.use(session({
   secret,
   resave: false,

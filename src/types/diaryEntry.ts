@@ -12,7 +12,6 @@ export default interface DiaryEntryType extends Document {
     body: string;
     tags: string[];
     files: FileType[];
-    date: Date,
     user_id: Types.ObjectId
 }
 export type { FileType }

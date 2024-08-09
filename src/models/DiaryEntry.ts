@@ -6,9 +6,8 @@ const DiaryEntrySchema: Schema = new Schema({
     body: { type: String, required: true },
     tags: { type: [String], default: [] },
     files: { type: [String], default: [] },
-    date: { type: Date, default: Date.now },
     user_id: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Ensure user_id is required
-});
+}, {timestamps: true});
 
 const DiaryEntry = mongoose.model<DiaryEntryType>(
   "DiaryEntry",
