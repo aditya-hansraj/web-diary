@@ -8,6 +8,8 @@ import passport from './config/passport';
 import authRoutes from './routes/auth';
 import diaryEntryRoutes from './routes/diaryEntry';
 import rateLimit from 'express-rate-limit';
+import notFoundRoutes from './middlewares/notFound';
+import cors from 'cors';
 
 const app = express();
 const PORT = 5000;
@@ -21,6 +23,14 @@ const authLimiter = rateLimit({
 
 app.use(express.json());
 
+app.use(cors({
+  origin: process.env.FRONTEND_URL, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+}));
+
+app.options('*', cors());
+
 app.use('/uploads', express.static('uploads')); 
 
 app.use(session({
@@ -33,9 +43,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// AuthRoutes
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/entries', diaryEntryRoutes);
+
+// 404 routes
+app.use(notFoundRoutes); 
 
 app.use('/api/auth/user', authLimiter, authRoutes); 
 

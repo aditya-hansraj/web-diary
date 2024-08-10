@@ -3,7 +3,7 @@ import DiaryEntryType, { FileType } from "../types/diaryEntry";
 
 const DiaryEntrySchema: Schema = new Schema({
     title: { type: String, required: true },
-    body: { type: String, required: true },
+    body: { type: String, required: true, maxlength: 200 },
     tags: { type: [String], default: [] },
     files: { type: [String], default: [] },
     user_id: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Ensure user_id is required
