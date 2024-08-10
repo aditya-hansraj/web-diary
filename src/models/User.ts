@@ -5,7 +5,12 @@ const UserSchema: Schema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  googleId: { type: String }
+  googleId: { type: String },
+  activities: [{ 
+    name: { type: String, required: true },
+    userAgent: {type: String},
+    date: { type: Date, default: Date.now }
+  }]
   },{
     versionKey: false
   }

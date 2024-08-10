@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import UserType from '../types/user'; 
+import UserType, { Activity } from '../types/user'; 
 import DiaryEntry, { DiaryEntryType } from '../models/DiaryEntry';
 import ApiResponseType, { response } from '../types/response';
 
@@ -9,10 +9,6 @@ export const createDiaryEntry = async (req: Request, res: Response) => {
     const files = req.files as Express.Multer.File[];
 
     const user = req.user as UserType;
-
-    // if (!user || !user._id) {
-    //   return res.status(401).json({...response, error: 'User not authenticated' });
-    // }
 
     const filePaths = files.map(file => ({
       filename: file.filename,
@@ -29,8 +25,15 @@ export const createDiaryEntry = async (req: Request, res: Response) => {
       date: new Date(),
       user_id: user._id,
     });
-
     await newEntry.save();
+
+    try {
+      user.activities.unshift(new Activity(`Added a new Entry: ${newEntry.title}`, req.headers['user-agent']));
+      await user.save();
+    }
+    catch(err: any) {
+      console.log(err)
+    }
 
     res.status(201).json({
       ...response,
@@ -48,10 +51,6 @@ export const deleteDiaryEntry = async (req: Request, res: Response) => {
 
     const user = req.user as UserType;
 
-    // if (!user || !user._id) {
-    //   return res.status(401).json({...response, error: 'User not authenticated' });
-    // }
-
     // Find the diary entry by ID
     const entry = await DiaryEntry.findById(id);
 
@@ -66,6 +65,14 @@ export const deleteDiaryEntry = async (req: Request, res: Response) => {
  
     const deletedEntry: DiaryEntryType = entry;
     await entry.deleteOne();
+
+    try {
+      user.activities.unshift(new Activity(`Deleted an Entry: ${deletedEntry.title}`, req.headers['user-agent']));
+      await user.save();
+    }
+    catch(err: any) {
+      console.log(err)
+    }
 
     res.status(200).json({ ...response,
       success: true,
@@ -115,6 +122,13 @@ export const updateDiaryEntry = async (req: Request, res: Response) => {
 
     if (!updatedEntry) {
       return res.status(404).json({...response, error: 'Diary entry not found' });
+    }
+    try {
+      user.activities.unshift(new Activity(`Updated an Entry: ${updatedEntry.title}`, req.headers['user-agent']));
+      await user.save();
+    }
+    catch(err: any) {
+      console.log(err)
     }
 
     res.status(200).json({

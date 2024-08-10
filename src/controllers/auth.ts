@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
-import UserType from "../types/user";
+import UserType, { Activity } from "../types/user";
 import passport from "../config/passport";
 import ApiResponseType, { response } from "../types/response";
 import { error } from "console";
@@ -33,10 +33,9 @@ export const register = async (req: Request, res: Response) => {
       username,
       email,
       password: hashedPassword,
+      activities: [new Activity("Created Account", req.headers['user-agent'])]
     } as UserType);
     await newUser.save();
-
-    // res.status(201).json({ message: "User registered successfully" });
 
     // Log in the newly registered user
     req.login(newUser, (err: Error | null) => {
@@ -79,12 +78,14 @@ export const login = (req: Request, res: Response) => {
           data: info,
         });
       }
-      req.login(user, (err) => {
+      req.login(user, async (err) => {
         if (err) {
           return res
             .status(500)
             .json({ ...response, error: "Failed to log in" });
         }
+        user.activities.unshift(new Activity("Logged in", req.headers['user-agent']));
+        await user.save();
         res.status(200).json({
           ...response,
           success: true,
@@ -103,11 +104,19 @@ export const logout = (req: Request, res: Response) => {
     if (err) {
       return res.status(500).json({ ...response, error: "Logout failed" });
     }
-    req.session.destroy((err: any) => {
+    req.session.destroy(async (err: any) => {
       if (err) {
         return res
           .status(500)
           .json({ ...response, error: "Session destruction failed" });
+      }
+      const user = req.user as UserType;
+      try {
+        user.activities.unshift(new Activity("Logged out", req.headers['user-agent']));
+        await user.save();
+      }
+      catch(err: any) {
+        console.log(err)
       }
       res.status(200).json({
         ...response,
@@ -160,7 +169,12 @@ export const changeUsername = async (req: Request, res: Response) => {
         error: "Username already taken.",
       });
     }
-
+    user.activities.unshift(
+      new Activity(
+        `Changed username from ${user.username} to ${newUsername}`,
+         req.headers['user-agent']
+      )
+    );
     user.username = newUsername;
     await user.save();
 
@@ -189,6 +203,7 @@ export const changePassword = async (req: Request, res: Response) => {
     }
 
     user.password = await bcrypt.hash(newPassword, 10);
+    user.activities.unshift(new Activity("You changed your password", req.headers['user-agent']));
     await user.save();
     return res.status(200).json({
       ...response,
@@ -224,7 +239,7 @@ export const changeEmail = async (req: Request, res: Response) => {
         error: "Email Already in Use.",
       });
     }
-
+    user.activities.unshift(new Activity("Updated Email", req.headers['user-agent']));
     user.email = newEmail;
     await user.save();
 
