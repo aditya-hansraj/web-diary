@@ -7,10 +7,17 @@ import session from 'express-session';
 import passport from './config/passport';
 import authRoutes from './routes/auth';
 import diaryEntryRoutes from './routes/diaryEntry';
+import rateLimit from 'express-rate-limit';
 
 const app = express();
 const PORT = 5000;
 const secret = String(process.env.SECRET_KEY);
+
+const authLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 60 minutes
+  max: 5, // Limit each IP to 5 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+});
 
 app.use(express.json());
 
@@ -29,6 +36,8 @@ app.use(passport.session());
 // AuthRoutes
 app.use('/api/auth', authRoutes);
 app.use('/api/entries', diaryEntryRoutes);
+
+app.use('/api/auth/user', authLimiter, authRoutes); 
 
 app.get('/', (req: Request, res: Response) => {
   res.send('The Web-Diary');

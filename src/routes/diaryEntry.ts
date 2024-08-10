@@ -9,7 +9,7 @@ router.post('/create',isAuthenticated, upload.array('files', 10), createDiaryEnt
 
 router.delete('/delete/:id', isAuthenticated, deleteDiaryEntry);
 
-router.get('/', getEntries);   
+router.get('/', isAuthenticated, getEntries);   
 
 router.put('/update/:id', isAuthenticated, updateDiaryEntry);
 

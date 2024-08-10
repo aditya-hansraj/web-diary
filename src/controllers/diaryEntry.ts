@@ -10,9 +10,9 @@ export const createDiaryEntry = async (req: Request, res: Response) => {
 
     const user = req.user as UserType;
 
-    if (!user || !user._id) {
-      return res.status(401).json({...response, error: 'User not authenticated' });
-    }
+    // if (!user || !user._id) {
+    //   return res.status(401).json({...response, error: 'User not authenticated' });
+    // }
 
     const filePaths = files.map(file => ({
       filename: file.filename,
@@ -48,9 +48,9 @@ export const deleteDiaryEntry = async (req: Request, res: Response) => {
 
     const user = req.user as UserType;
 
-    if (!user || !user._id) {
-      return res.status(401).json({...response, error: 'User not authenticated' });
-    }
+    // if (!user || !user._id) {
+    //   return res.status(401).json({...response, error: 'User not authenticated' });
+    // }
 
     // Find the diary entry by ID
     const entry = await DiaryEntry.findById(id);
@@ -79,9 +79,9 @@ export const deleteDiaryEntry = async (req: Request, res: Response) => {
 export const getEntries = async (req: Request, res: Response) => {
   try {
     const user = req.user as UserType;
-    if (!user || !user._id) {
-      return res.status(401).json({...response, error: 'User not authenticated' });
-    }
+    // if (!user || !user._id) {
+    //   return res.status(401).json({...response, error: 'User not authenticated' });
+    // }
 
     const userId = user._id;
 
@@ -103,9 +103,9 @@ export const updateDiaryEntry = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { title, body, tags, files } = req.body;
     const user = req.user as UserType;
-    if (!user || !user._id) {
-      return res.status(401).json({...response, error: 'User not authenticated' });
-    }
+    // if (!user || !user._id) {
+    //   return res.status(401).json({...response, error: 'User not authenticated' });
+    // }
 
     const updatedEntry = await DiaryEntry.findOneAndUpdate(
       { _id: id, user_id: user._id },
