@@ -86,6 +86,7 @@ const Signup: React.FC = () => {
                   variant="light"
                   className="position-absolute top-50 end-0 translate-middle"
                   onClick={() => setPasswordVisible(!passwordVisible)}
+                  disabled={isRegisterLoading}
                 >
                   {passwordVisible ? <BiHide /> : <BiShowAlt />}
                 </Button>

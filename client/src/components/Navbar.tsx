@@ -9,7 +9,7 @@ import {
   Button,
   ButtonGroup,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { CiLight, CiDark } from "react-icons/ci";
 import { useTheme } from "../contexts/theme.context";
 import { useAuth } from "../contexts/auth.context";
@@ -17,6 +17,7 @@ import { useAuth } from "../contexts/auth.context";
 export default () => {
   const { darkMode, toggleTheme } = useTheme();
   const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate()
 
   return (  
     <Navbar
@@ -30,13 +31,13 @@ export default () => {
           <div className="d-flex flex-row w-100">
             <div className="me-auto d-flex">
               <Nav className="d-flex">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/diaries">Diaries</Nav.Link>
+                <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
+                <Nav.Link onClick={() => navigate('/diaries')}>Diaries</Nav.Link>
               </Nav>
             </div>
             <div className="d-flex">
               <Nav>
-                <div onClick={toggleTheme} className="toggle-theme">
+                <div onClick={toggleTheme} className="toggle-theme nav-button" title={`Switch to ${darkMode ? 'Light' : 'Dark'} mode`}>
                   {darkMode ? <CiLight color="white" /> : <CiDark />}
                 </div>
                 {

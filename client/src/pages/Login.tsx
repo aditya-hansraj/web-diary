@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Card, Alert, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { BiHide, BiShowAlt, BiShow } from 'react-icons/bi';
+import { BiHide, BiShowAlt } from 'react-icons/bi';
 import { useTheme } from "../contexts/theme.context";
 import { useAuth } from '../contexts/auth.context';
 import { BeatLoader } from 'react-spinners';
@@ -50,6 +50,7 @@ const Login: React.FC = () => {
                 variant='light'
                 className="position-absolute top-50 end-0 translate-middle"
                 onClick={() => setPasswordVisible(!passwordVisible)}
+                disabled={isLoginLoading}
               >
                 {passwordVisible ? <BiHide /> : <BiShowAlt />}
               </Button>
