@@ -9,7 +9,7 @@ export default function Features() {
     <Container>
       <div className="row">
         {features.map(({ title, description, image }, index) => (
-          <div className="col-md-3 col-sm-6 mb-4" key={index}>
+          <div className="col-md-3 col-sm-5 mb-4" key={index}>
             <FeatureCard title={title} text={description} src={image} />
           </div>
         ))}

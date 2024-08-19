@@ -1,98 +1,86 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Ubuntu", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Ubuntu", sans-serif;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .toggle-theme {
-  font-size: 1.4em;
-  padding: 0 1em;
+    font-size: 1.4em;
+    padding: 0 1em;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
 }
 
 body {
-  background-color: #ffffff;
-  color: #343a40;
+    background-color: #ffffff;
+    color: #343a40;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+    bottom: 0;
 }
 
 .dark-mode {
-  background-color: #343a40;
-  color: #ffffff;
+    background-color: #343a40;
+    color: #ffffff;
 }
 
 .nav-button {
-  &:hover {
-    cursor: pointer;
-  }
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 /* */
 
 .hero-section .display-4 {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .hero-section .lead {
-  font-size: 1.25rem;
-  color: #6c757d;
+    font-size: 1.25rem;
+    color: #6c757d;
 }
 
 .hero-section .btn-primary {
-  padding: 0.75rem 1.5rem;
-  font-size: 1.125rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
 }
 
 .hero-section .btn {
-  font-size: 23px;
-}
-
-.carousel-image-container {
-  width: 100%;
-}
-
-.carousel-image {
-  height: auto;
-  object-fit: cover;
-  width: 50%; 
-  display: block;
-  margin: auto;
-}
-.carousel-control-next,
-.carousel-control-prev {
-  padding: 4em;
-  width: 2em;
-  color: #000;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: #00000080; 
-  border-radius: 50%; /* Round the arrows */
-}
-
-/* Light Mode Styles */
-.carousel-control-prev-icon-light,
-.carousel-control-next-icon-light {
-  color: #000; /* Black color for the slider arrows in light mode */
-}
-
-/* Dark Mode Styles */
-.carousel-control-prev-icon-dark,
-.carousel-control-next-icon-dark {
-  background-color: #fff; /* White color for the slider arrows in dark mode */
-}
-
-.carousel-indicators {
-  display: none;
+    font-size: 23px;
 }
 
 .feature-card {
-  transition: transform 0.3s, box-shadow 0.3s;
-  min-height: 30rem;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+    min-height: 30rem;
 }
 
 .feature-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loader-container {
+    height: 100%;
+    padding: 20%;
 }

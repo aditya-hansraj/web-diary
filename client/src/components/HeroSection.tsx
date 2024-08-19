@@ -1,5 +1,5 @@
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';    
-import hero_img from '../../public/assets/hero.png'
+import hero_img from '/assets/hero.png'
 import { TfiWrite } from "react-icons/tfi";
 import { Link } from 'react-router-dom';
 

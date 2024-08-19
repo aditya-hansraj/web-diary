@@ -6,8 +6,8 @@ import React, {
   ReactNode,
   useCallback,
 } from "react";
-import { useNavigate } from "react-router-dom";
-import { postRequest } from "../utils/services";
+import { postRequest, getRequest } from "../utils/services";
+import { User, AuthContextType } from "../types/auth";
 
 const BASE_URL = "http://localhost:5000/api/auth";
 
@@ -18,6 +18,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(!!user);
+  const [jwtToken, setJwtToken] = useState<string | null>(null);
 
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
@@ -30,21 +31,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     email: "",
     password: "",
   });
-
-  const navigate = useNavigate();
+  const [authLoading, setAuthLoading] = useState(false);
 
   const updateLoginInfo = useCallback(
     (info: { username: string; password: string }) => {
       setLoginInfo(info);
     },
-    []
+    [],
   );
 
   const updateRegisterInfo = useCallback(
     (info: { username: string; email: string; password: string }) => {
       setRegisterInfo(info);
     },
-    []
+    [],
   );
 
   const login = useCallback(
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       const response = await postRequest(
         `${BASE_URL}/login`,
-        JSON.stringify(loginInfo)
+        JSON.stringify(loginInfo),
       );
 
       setIsLoginLoading(false);
@@ -66,12 +66,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       if (response.error) return setLoginError(response.error);
 
-      const user = response.data.user;
-      localStorage.setItem("user", JSON.stringify(user));
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      setJwtToken(token);
       setUser(response.data.user);
       setIsAuthenticated(true);
     },
-    [loginInfo]
+    [loginInfo],
   );
 
   const register = useCallback(
@@ -82,7 +83,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       const response = await postRequest(
         `${BASE_URL}/register`,
-        JSON.stringify(registerInfo)
+        JSON.stringify(registerInfo),
       );
 
       setIsRegisterLoading(false);
@@ -94,32 +95,49 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
       if (response.error) return setRegisterError(response.error);
 
-      const user = response.data.user;
-      localStorage.setItem("user", JSON.stringify(user));
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      setJwtToken(token);
       setUser(response.data.user);
       setIsAuthenticated(true);
     },
-    [registerInfo]
+    [registerInfo],
   );
 
   const logout = async () => {
-    try {
-      await postRequest(`${BASE_URL}/logout`, JSON.stringify({}));
-      localStorage.removeItem("user");
-      setUser(null);
-      setIsAuthenticated(false);
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-    }
+    localStorage.removeItem("token");
+    setJwtToken(null);
+    setUser(null);
+    setIsAuthenticated(false);
   };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsAuthenticated(true);
-    }
+    const fetchUser = async (): Promise<void> => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          setAuthLoading(true);
+          const response = await getRequest(`${BASE_URL}/me`, token);
+          setAuthLoading(false);
+          if (response.error) throw new Error(response.error);
+          setUser(response.data.user);
+          setIsAuthenticated(true);
+          setJwtToken(token);
+        } catch (error) {
+          console.error("Failed to decode token or fetch user:", error);
+          localStorage.removeItem("token");
+          setUser(null);
+          setJwtToken(null);
+          setIsAuthenticated(false);
+          setAuthLoading(false);
+          setJwtToken(null);
+        }
+      } else {
+        logout();
+      }
+    };
+
+    fetchUser();
   }, []);
 
   return (
@@ -138,6 +156,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         updateRegisterInfo,
         isRegisterLoading,
         registerError,
+        authLoading,
+        jwtToken,
       }}
     >
       {children}
@@ -152,33 +172,3 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
-
-// types
-interface AuthContextType {
-  user: User | null;
-  login: (event: any) => Promise<void>;
-  logout: () => void;
-  isAuthenticated: boolean;
-  loginInfo: { username: string; password: string };
-  updateLoginInfo: (info: { username: string; password: string }) => void;
-  loginError: string | null;
-  isLoginLoading: boolean;
-  register: (event: any) => Promise<void>;
-  updateRegisterInfo: (info: {username: string;email: string;password: string;}) => void;
-  registerInfo: { username: string; email: string; password: string };
-  isRegisterLoading: boolean;
-  registerError: string | null;
-}
-
-interface Activity {
-  name: string;
-  link: string;
-  timestamp: Date;
-}
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  activities: Activity[];
-}
