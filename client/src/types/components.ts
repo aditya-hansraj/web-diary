@@ -8,3 +8,12 @@ export interface EntryType {
   userId: string;
   files: [];
 }
+
+export interface EntryContextType {
+  entries: EntryType[];
+  entriesLoading: boolean;
+  searchKey: string | null;
+  filterEntries: () => void;
+  updateSearchKey: (event: any) => void;
+  filteredEntries: EntryType[]
+}

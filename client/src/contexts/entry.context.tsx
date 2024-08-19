@@ -6,7 +6,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { EntryType } from "../types/components";
+import { EntryType, EntryContextType } from "../types/components";
 import { getRequest } from "../utils/services";
 import { useAuth } from "./auth.context";
 
@@ -91,12 +91,3 @@ export const useEntryContext = (): EntryContextType => {
   if (context == undefined) throw new Error("UseEntryContextError");
   return context;
 };
-
-interface EntryContextType {
-  entries: EntryType[];
-  entriesLoading: boolean;
-  searchKey: string | null;
-  filterEntries: () => void;
-  updateSearchKey: (event: any) => void;
-  filteredEntries: EntryType[]
-}
