@@ -1,5 +1,4 @@
 import { InputText } from 'primereact/inputtext';
-import { useState } from 'react'
 import { Form } from 'react-bootstrap';
 import { useTheme } from '../../../contexts/theme.context';
 import Tag from '../Tag';
