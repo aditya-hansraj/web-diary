@@ -1,5 +1,5 @@
 import Card from "react-bootstrap/Card";
-import { useTheme } from "../contexts/theme.context";
+import { useTheme } from "../../contexts/theme.context";
 
 function FeatureCard(props: {
   src: string

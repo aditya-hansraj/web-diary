@@ -9,6 +9,7 @@ import Footer from "./components/Footer.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import DiaryEntries from "./pages/DiaryEntries";
 import { EntryProvider } from "./contexts/entry.context.tsx";
+import AddEntry from "./pages/AddEntry.tsx";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -31,7 +32,15 @@ function App() {
               <Route
                 path="/diaries"
                 element={
-                  isAuthenticated ? <DiaryEntries /> : <Navigate to="/" />
+                  // isAuthenticated ? 
+                  <DiaryEntries /> 
+                  // : <Navigate to="/" />
+                }
+              />
+              <Route
+                path="/addentry"
+                element={
+                  isAuthenticated ? <AddEntry /> : <Navigate to="/" />
                 }
               />
               <Route path="*" element={<NotFound />} />

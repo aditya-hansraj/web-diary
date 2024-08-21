@@ -82,3 +82,88 @@ body {
     height: 100%;
     padding: 20%;
 }
+
+.form-btn {
+    font-size: 4em;
+    &:hover {
+        background-color: #757a7e7a;
+    }
+}
+
+.entry-form {
+    width: 100vw;
+    height: 69vh;
+    align-items: center;
+    font-size: 2em;
+}
+
+.entry-form .input {
+    border: none;
+    border-bottom: 2px solid;
+    outline: none;
+    background-color: transparent;
+    border-radius: 0;
+    width: 26em;
+}
+
+.page-2 {
+    min-height: 85%;
+    height: fit-content;
+    font-size: large;
+}
+
+.page-2 .content {
+    width: 100%;
+    font-size: large;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+textarea::-webkit-scrollbar {
+    width: 12px;
+}
+
+textarea::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px; 
+    border: none;
+    outline: none;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px; 
+    border: none;
+    outline: none;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    cursor: pointer;
+}
+
+/* For Firefox */
+textarea {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+.content-size-count {
+    font-size: 0.6em;
+}
+
+.text-red {
+    color: rgba(253, 109, 109, 0.913);
+}
+
+@media (max-width: 768px) {
+    .entry-form {
+        flex-direction: column; 
+    }
+    .entry-form .input {
+        width: 80%;
+    }
+}
+

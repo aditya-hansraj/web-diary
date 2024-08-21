@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import data from "../utils/data.json";
+import data from "../../utils/data.json";
 import FeatureCard from "./FeatureCard";
 
 const features = data.features;
