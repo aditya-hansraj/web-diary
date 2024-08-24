@@ -10,7 +10,7 @@ export const createDiaryEntry = async (req: Request, res: Response) => {
 
     const user = req.user as UserType;
 
-    const filePaths = files.map(file => ({
+    const filePaths = files?.map(file => ({
       filename: file.filename,
       path: file.path,
       mimetype: file.mimetype,

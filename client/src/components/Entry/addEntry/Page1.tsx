@@ -10,7 +10,6 @@ const Page1 = () => {
   
     function handleTitleChange(event: any) {
       updateNewEntryTitle(event.target.value);
-      console.log(newEntryTitle);
     }
   
     function handleKeyDown(event: any) {

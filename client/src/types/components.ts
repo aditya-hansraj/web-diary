@@ -5,8 +5,6 @@ export interface EntryType {
   tags: string[];
   createdAt: string;
   updatedAt: string;
-  userId: string;
-  files: [];
 }
 
 export interface EntryContextType {
@@ -22,5 +20,5 @@ export interface EntryContextType {
   updateNewEntryTitle: (newTitle: string) => void;
   updateNewEntryTags: (tags: string[]) => void;
   updateNewEntryContent: (content: string) => void;
-  addEntry: () => void
+  addEntry: () => void;
 }

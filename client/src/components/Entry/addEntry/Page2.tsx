@@ -8,7 +8,6 @@ const Page2 = (props: { title: string; tags: string[] }) => {
 
   const handleChange = (event: any) => {
     updateNewEntryContent(event.target.value);
-    console.log(newEntryContent)
   }
   return (
     <div className="page-2 flex my-3 w-100 m-5">

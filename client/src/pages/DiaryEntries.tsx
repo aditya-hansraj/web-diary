@@ -14,11 +14,9 @@ export default function DiaryEntries() {
         <HashLoader />
       ) : filteredEntries.length ? (
         filteredEntries.map((entry) => (
-          <Entry
+          <Entry 
+            entry={entry}
             key={entry._id}
-            title={entry.title}
-            date={entry.createdAt}
-            tags={entry.tags}
           />
         ))
       ) : !entriesLoading &&(

@@ -9,6 +9,7 @@ import React, {
 import { EntryType, EntryContextType } from "../types/components";
 import { getRequest, postRequest } from "../utils/services";
 import { useAuth } from "./auth.context";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://localhost:5000/api/entries";
 
@@ -17,7 +18,7 @@ const EntryContext = createContext<EntryContextType | undefined>(undefined);
 export const EntryProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState<EntryType[]>([]);
   const [entriesLoading, setEntriesLoading] = useState(false);
   const [searchKey, setSearchKey] = useState<string | null>(null);
   const [filteredEntries, setFilteredEntries] = useState<EntryType[]>(entries);
@@ -25,6 +26,8 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({
   const [newEntryTitle, setNewEntryTitle] = useState<string | null>(null);
   const [newEntryTags, setNewEntryTags] = useState<string[]>([]);
   const [newEntryContent, setNewEntryContent] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const updateNewEntryTitle = useCallback((newTitle: string) => {
     setNewEntryTitle(newTitle);
@@ -53,22 +56,26 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({
       `${BASE_URL}/create`,
       JSON.stringify({
         title: newEntryTitle,
-        tags: newEntryTags,
+        tags: newEntryTags.join(','),
         body: newEntryContent
       }),
       jwtToken
     );
+
+    if(response.error) {
+      return console.error(response)
+    }
+    // setEntries((prev) => [...prev, response.data.entry]);
     setNewEntryContent(null);
     setNewEntryTags([]);
     setNewEntryTitle(null);
 
-    if(response.error) {
-      return console.log(response.error)
-    }
-    // setEntries((prev) => [...prev, response.data.entry]);
-    console.log(response.data.message);
+    const newEntry = response.data.entry as EntryType;
+    setEntries((prev) => [...prev, newEntry]);
+    console.log(`Successfully added new Entry: `, newEntry);  
+    navigate('/diaries');
     
-  }, [jwtToken]);
+  }, [jwtToken, newEntryTitle, newEntryTags, newEntryContent]);
 
   const updateSearchKey = useCallback((event: any) => {
     setSearchKey("" + event.target.value);

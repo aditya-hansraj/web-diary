@@ -2,9 +2,13 @@ import moment from "moment";
 import { useTheme } from "../..//contexts/theme.context";
 import { Link } from "react-router-dom";
 import Tag from "./Tag";
+import { EntryType } from "../../types/components";
 
-const Entry = (props: { title: string; date: string; tags: string[] }) => {
-  const date = moment(props.date).calendar();
+const Entry = (props: {entry: EntryType }) => {
+  const entry = props.entry;
+  const title = entry.title;
+  const tags = entry.tags;
+  const date = moment(entry.createdAt).calendar();
   const { darkMode } = useTheme();
   return (
     <div
@@ -15,11 +19,11 @@ const Entry = (props: { title: string; date: string; tags: string[] }) => {
           <h3
             className={`entry-title ${darkMode ? "text-light" : "text-dark"} `}
           >
-            {props.title}
+            {title}
           </h3>
         </Link>
         <div className="tags mt-4">
-          {props.tags.map((tag, index) => {
+          {tags.map((tag, index) => {
             return (
               <Tag key={index} tag={tag} delete={false} />
             );

@@ -15,8 +15,8 @@ function App() {
   const { isAuthenticated } = useAuth();
   return (
     <ThemeProvider>
-      <EntryProvider>
         <BrowserRouter>
+      <EntryProvider>
           <div className="main-content">
             <Navbar />
             <Routes>
@@ -47,8 +47,8 @@ function App() {
             </Routes>
           </div>
           <Footer />
-        </BrowserRouter>
       </EntryProvider>
+        </BrowserRouter>
     </ThemeProvider>
   );
 }
