@@ -15,10 +15,8 @@ const Entry = (props: {entry: EntryType }) => {
       className={`entry rounded d-flex justify-content-between m-3 px-4 py-3 ${darkMode ? "bg-dark" : "bg-light"}`}
     >
       <div className="left">
-        <Link to="#" className="text-decoration-none">
-          <h3
-            className={`entry-title ${darkMode ? "text-light" : "text-dark"} `}
-          >
+        <Link to={`/entries/${props.entry._id}`} className="text-decoration-none">
+          <h3 className={`entry-title ${darkMode ? "text-light" : "text-dark"} `}>
             {title}
           </h3>
         </Link>

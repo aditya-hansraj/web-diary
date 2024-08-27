@@ -8,6 +8,7 @@ import { useAuth } from "./contexts/auth.context.tsx";
 import Footer from "./components/Footer.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import DiaryEntries from "./pages/DiaryEntries";
+import EntryDetails from "./pages/EntryDetails";
 import { EntryProvider } from "./contexts/entry.context.tsx";
 import AddEntry from "./pages/AddEntry.tsx";
 
@@ -15,8 +16,8 @@ function App() {
   const { isAuthenticated } = useAuth();
   return (
     <ThemeProvider>
-        <BrowserRouter>
-      <EntryProvider>
+      <BrowserRouter>
+        <EntryProvider>
           <div className="main-content">
             <Navbar />
             <Routes>
@@ -32,23 +33,22 @@ function App() {
               <Route
                 path="/diaries"
                 element={
-                  // isAuthenticated ? 
-                  <DiaryEntries /> 
+                  // isAuthenticated ?
+                  <DiaryEntries />
                   // : <Navigate to="/" />
                 }
               />
               <Route
                 path="/addentry"
-                element={
-                  isAuthenticated ? <AddEntry /> : <Navigate to="/" />
-                }
+                element={isAuthenticated ? <AddEntry /> : <Navigate to="/" />}
               />
+              <Route path="/entries/:id" element={<EntryDetails />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
           <Footer />
-      </EntryProvider>
-        </BrowserRouter>
+        </EntryProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
