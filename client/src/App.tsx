@@ -11,6 +11,7 @@ import DiaryEntries from "./pages/DiaryEntries";
 import EntryDetails from "./pages/EntryDetails";
 import { EntryProvider } from "./contexts/entry.context.tsx";
 import AddEntry from "./pages/AddEntry.tsx";
+import EditEntry from "./pages/EditEntry.tsx";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -43,6 +44,7 @@ function App() {
                 element={isAuthenticated ? <AddEntry /> : <Navigate to="/" />}
               />
               <Route path="/entries/:id" element={<EntryDetails />} />
+              <Route path="/entries/:id/edit" element={<EditEntry />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

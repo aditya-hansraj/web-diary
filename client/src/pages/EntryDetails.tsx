@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState,  } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEntryContext } from "../contexts/entry.context";
 import { EntryType } from "../types/components";
 import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
 import { useTheme } from "../contexts/theme.context";
+import Tag from "../components/Entry/Tag";
 
 const EntryDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { entries } = useEntryContext();
+  const { entries, deleteEntry } = useEntryContext();
   const [entry, setEntry] = useState<EntryType | null>(null);
   const { darkMode } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const selectedEntry = entries.find((entry) => entry._id === id);
@@ -29,8 +31,8 @@ const EntryDetails: React.FC = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#/edit">Edit</Dropdown.Item>
-              <Dropdown.Item href="#/delete">Delete</Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate(`/entries/${id}/edit`)}>Edit</Dropdown.Item>
+              <Dropdown.Item onClick={() => {deleteEntry(entry._id)}}>Delete</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -40,9 +42,7 @@ const EntryDetails: React.FC = () => {
           <p className="mb-4">{entry.body}</p>
           <div className="d-flex flex-wrap">
             {entry.tags.map((tag, index) => (
-              <Button  key={index} variant="outline-secondary" className="me-2 mb-2">
-                {tag}
-              </Button>
+              <Tag tag={tag} key={index} />
             ))}
           </div>
         </Col>

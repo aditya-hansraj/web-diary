@@ -21,4 +21,6 @@ export interface EntryContextType {
   updateNewEntryTags: (tags: string[]) => void;
   updateNewEntryContent: (content: string) => void;
   addEntry: () => void;
+  updateEntry: (id: string, updateEntry: EntryType) => void;
+  deleteEntry: (id: string) => void
 }

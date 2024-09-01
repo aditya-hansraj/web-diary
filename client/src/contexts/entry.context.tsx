@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import { EntryType, EntryContextType } from "../types/components";
-import { getRequest, postRequest } from "../utils/services";
+import { deleteRequest, getRequest, postRequest, putRequest } from "../utils/services";
 import { useAuth } from "./auth.context";
 import { useNavigate } from "react-router-dom";
 
@@ -77,6 +77,46 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({
     
   }, [jwtToken, newEntryTitle, newEntryTags, newEntryContent]);
 
+  const updateEntry = useCallback(
+    async (id: string, updatedEntryData: { title?: string; body?: string; tags?: string[] }) => {
+      const response = await putRequest(
+        `${BASE_URL}/update/${id}`,
+        JSON.stringify(updatedEntryData),
+        jwtToken
+      );
+  
+      if (response.error) {
+        console.log(response.error);
+        return;
+      }
+  
+      // Update the state with the updated entry
+      setEntries((prevEntries) =>
+        prevEntries.map((entry) =>
+          entry._id === id ? { ...entry, ...response.data.entry } : entry
+        )
+      );
+    },
+    [jwtToken]
+  );
+
+  const deleteEntry = useCallback(
+    async (id: string) => {
+      const response = await deleteRequest(`${BASE_URL}/delete/${id}`, jwtToken);
+
+      if (response.error) {
+        console.error("Failed to delete entry:", response.error);
+        return;
+      }
+
+      // Remove the deleted entry from the state
+      setEntries((prevEntries) => prevEntries.filter((entry) => entry._id !== id));
+      navigate("/diaries");
+    },
+    [jwtToken, navigate]
+  );
+  
+
   const updateSearchKey = useCallback((event: any) => {
     setSearchKey("" + event.target.value);
   }, []);
@@ -100,7 +140,7 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({
     });
 
     setFilteredEntries(filtered);
-  }, [entries, searchKey]);
+  }, [entries, searchKey]); 
 
   // Call filterEntries whenever searchKey changes
   useEffect(() => {
@@ -127,6 +167,8 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({
         updateNewEntryTags,
         updateNewEntryContent,
         addEntry,
+        updateEntry,
+        deleteEntry
       }}
     >
       {children}

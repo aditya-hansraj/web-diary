@@ -3,7 +3,7 @@ import { IoCloseSharp } from "react-icons/io5";
 
 const Tag = (props: {
   tag: string;
-  delete: boolean;
+  delete?: boolean;
   deleteTag?: (tagToDelete: string) => void;
 }) => {
   const { darkMode } = useTheme();
