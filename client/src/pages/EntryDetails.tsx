@@ -2,7 +2,7 @@ import React, { useEffect, useState,  } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEntryContext } from "../contexts/entry.context";
 import { EntryType } from "../types/components";
-import { Container, Row, Col, Dropdown, Button } from "react-bootstrap";
+import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import { useTheme } from "../contexts/theme.context";
 import Tag from "../components/Entry/Tag";
 
