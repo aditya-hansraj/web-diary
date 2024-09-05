@@ -12,6 +12,10 @@ import EntryDetails from "./pages/EntryDetails";
 import { EntryProvider } from "./contexts/entry.context.tsx";
 import AddEntry from "./pages/AddEntry.tsx";
 import EditEntry from "./pages/EditEntry.tsx";
+import Profile from "./pages/Profile.tsx";
+import UserProfile from "./pages/Profile.tsx";
+import RecentActivities from "./pages/RecentActivities.tsx";
+import ChangePassword from "./pages/ChangePassword.tsx";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -45,6 +49,9 @@ function App() {
               />
               <Route path="/entries/:id" element={<EntryDetails />} />
               <Route path="/entries/:id/edit" element={<EditEntry />} />
+              <Route path="/me" element={ isAuthenticated ? <Profile /> : <Login /> } />
+              <Route path="/me/activities" element={ isAuthenticated ? <RecentActivities /> : <Login />} />
+              <Route path="/me/change-password" element={ isAuthenticated ? <ChangePassword /> : <Login />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

@@ -15,7 +15,7 @@ const HeroSection = () => {
               Transform your daily experiences into treasured memories with our intuitive diary app. Reflect on your journey, track your growth, and savor every moment, all while keeping your thoughts completely private and secure.
               </p>
               <Button variant="primary" size="lg" className='btn'>
-                <Link className='text-decoration-none text-light' to='/'><span className='px-4'>Write Your Day Now</span><TfiWrite /></Link>
+                <Link className='text-decoration-none text-light' to='/addentry'><span className='px-4'>Write Your Day Now</span><TfiWrite /></Link>
               </Button>
             </div>
           </Col>

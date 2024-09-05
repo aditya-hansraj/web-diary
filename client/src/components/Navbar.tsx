@@ -45,11 +45,8 @@ export default () => {
                       className=""
                       style={{ width: "10rem" }}
                     >
-                      <NavDropdown.Item href="#action/3.1">
+                      <NavDropdown.Item href="/me">
                         Your Profile
-                      </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">
-                        Settings
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
                       <NavDropdown.Item onClick={logout}>

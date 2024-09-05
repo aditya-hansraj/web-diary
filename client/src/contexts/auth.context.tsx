@@ -6,7 +6,7 @@ import React, {
   ReactNode,
   useCallback,
 } from "react";
-import { postRequest, getRequest } from "../utils/services";
+import { postRequest, getRequest, putRequest } from "../utils/services";
 import { User, AuthContextType } from "../types/auth";
 
 const BASE_URL = "http://localhost:5000/api/auth";
@@ -111,6 +111,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     setIsAuthenticated(false);
   };
 
+  const updatePassword = useCallback(
+    async (currentPassword: string, newPassword: string): Promise<void> => {
+      setIsLoginLoading(true);
+      try {
+        const response = await putRequest(
+          `${BASE_URL}/user/change-password`,
+          JSON.stringify({ currentPassword, newPassword }),
+          jwtToken
+        );
+        setIsLoginLoading(false);
+        if (response.success) {
+          console.log("Password updated successfully.");
+          window.location.href = '/me';
+        } else {
+          throw new Error(response.error || "Failed to update password.");
+        }
+      } catch (error: any) {
+        console.error("Error updating password:", error.message);
+        throw new Error(error.message || "An error occurred while updating the password.");
+      }
+    },
+    [jwtToken] 
+  );
+
   useEffect(() => {
     const fetchUser = async (): Promise<void> => {
       const token = localStorage.getItem("token");
@@ -158,6 +182,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         registerError,
         authLoading,
         jwtToken,
+        updatePassword
       }}
     >
       {children}

@@ -10,8 +10,8 @@ const Page2 = (props: { title: string; tags: string[] }) => {
     updateNewEntryContent(event.target.value);
   }
   return (
-    <div className="page-2 flex my-3 w-100 m-5">
-      <header>
+    <div className="page-2 flex my-5 w-100 m-5">
+      <header className="mt-5">
         <h1 className="mx-4">{props.title}</h1>
         <div className="tags d-flex mx-4 my-2">
           {props.tags.map((tag, index) => (

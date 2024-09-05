@@ -1,7 +1,8 @@
 export interface Activity {
   name: string;
-  link: string;
-  timestamp: Date;
+  date: Date;
+  userAgent: string;
+  _id?: string;
 }
 
 export interface User {
@@ -31,4 +32,5 @@ export interface AuthContextType {
   registerError: string | null;
   authLoading: boolean;
   jwtToken: string | null;
+  updatePassword: (oldPassword: string, newPassword: string ) => void;
 }

@@ -65,7 +65,6 @@ const EditEntry: React.FC = () => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </Form.Group>
-
         <Form.Group controlId="entryBody" className="mb-3">
           <Form.Label>Body</Form.Label>
           <Form.Control
@@ -75,8 +74,7 @@ const EditEntry: React.FC = () => {
             name="body"
             onChange={(e) => setBody(e.target.value)}
           />
-        </Form.Group>
-
+        </Form.Group> 
         <Form.Group controlId="entryTags" className="mb-3">
           <Form.Label>Tags</Form.Label>
           <Form.Control
