@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Container, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
 import { useAuth } from "../contexts/auth.context";
 import { useTheme } from "../contexts/theme.context";
 import moment from "moment";

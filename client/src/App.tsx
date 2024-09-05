@@ -13,7 +13,6 @@ import { EntryProvider } from "./contexts/entry.context.tsx";
 import AddEntry from "./pages/AddEntry.tsx";
 import EditEntry from "./pages/EditEntry.tsx";
 import Profile from "./pages/Profile.tsx";
-import UserProfile from "./pages/Profile.tsx";
 import RecentActivities from "./pages/RecentActivities.tsx";
 import ChangePassword from "./pages/ChangePassword.tsx";
 
