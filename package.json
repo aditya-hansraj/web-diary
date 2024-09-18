@@ -32,7 +32,8 @@
     "passport-local": "^1.0.0",
     "primereact": "^10.8.2",
     "react-spinners": "^0.14.1",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "web-diary": "file:"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

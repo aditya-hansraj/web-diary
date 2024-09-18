@@ -39,7 +39,7 @@ const UserProfile: React.FC = () => {
                     {activities ? activities[0].name + moment(activities[0].date).calendar() : ''}
                   </span>
                 </p>
-                <Link to='/me/activities' >more...</Link>
+                <Link className="text-decoration-none" to='/me/activities' >more...</Link>
               </div>
               <h5 className="mt-4 mb-3">Settings</h5>
               <Form.Check 
