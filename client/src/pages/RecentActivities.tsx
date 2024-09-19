@@ -10,7 +10,6 @@ const RecentActivities: React.FC = () => {
   const { darkMode } = useTheme();
   const navigate = useNavigate();
 
-  // Dummy data for recent activities; replace with actual data fetching logic
   const activities = user?.activities || [];
 
   return (
