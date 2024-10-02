@@ -24,30 +24,31 @@ passport.use(new LocalStrategy(
   }
 ));
 
-// passport.use(new GoogleStrategy({
-//   clientID: process.env.GOOGLE_CLIENT_ID!,
-//   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-//   callbackURL: "/auth/google/callback"
-// },
-//   async (accessToken, refreshToken, profile, done) => {
-//     try {
-//       const user = await User.findOne({ googleId: profile.id });
-//       if (user) {
-//         return done(null, user);
-//       } else {
-//         const newUser = new User({
-//           googleId: profile.id,
-//           username: profile.displayName,
-//           email: profile.emails[0].value,
-//         });
-//         const savedUser = await newUser.save();
-//         return done(null, savedUser);
-//       }
-//     } catch (err) {
-//       return done(err);
-//     }
-//   }
-// ));
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID!,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+  callbackURL: "/auth/google/callback",
+  scope: ["profile", "email"]
+},
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      const user = await User.findOne({ googleId: profile.id });
+      if (user) {
+        return done(null, user);
+      } else {
+        const newUser = new User({
+          googleId: profile.id,
+          username: profile.displayName,
+          email: profile?.emails?.values
+        });
+        const savedUser = await newUser.save();
+        return done(null, savedUser);
+      }
+    } catch (err) {
+      return done(err);
+    }
+  }
+));
 
 passport.serializeUser((user: any, done) => {
   done(null, user._id);

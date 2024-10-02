@@ -16,6 +16,13 @@ const Login: React.FC = () => {
 
   const { darkMode } = useTheme();
 
+  const googleAuth = () => {
+    window.open(
+      `http://localhost:5000/auth/google/callback`,
+      "_self"
+    )
+  }
+
   return (
     <Container
       className={`d-flex justify-content-center align-items-center min-vh-100`}
@@ -59,9 +66,13 @@ const Login: React.FC = () => {
             {isLoginLoading? <BeatLoader color='#d9d9d9' /> : "Login"}
             </Button>
           </Form>
+          <Button onClick={googleAuth}>
+              <span>Sign in with Google</span>
+          </Button>
           <Link className="d-block w-100 text-center text-decoration-none mt-4" to="/signup">
             Sign Up
           </Link>
+          
         </Card.Body>
       </Card>
     </Container>
