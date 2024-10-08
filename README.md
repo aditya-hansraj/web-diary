@@ -26,7 +26,7 @@ A full-stack web application that allows users to maintain personal diaries, wit
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/web-diary.git
+    git clone https://github.com/aditya-hansraj/web-diary.git
     ```
 2. Navigate into the project directory:
     ```bash
